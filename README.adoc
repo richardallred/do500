@@ -1,13 +1,21 @@
 = DO500 DevOps Culture and Practice Enablement
-This is the repository for the assets belonging to the Red Hat Training course DO500. This course repository does not follow usual conventions because the lab environment differs from the standard one and the course guides are not written in Docbook.
+This is the repository for the assets belonging to the Red Hat Training course DO500.
+This course repository does not follow usual conventions because the lab environment differs from the standard one and the course guides are not written in Docbook.
 
 == Classroom Environment
-The classroom is built using the casl-ansible playbooks from the Red Hat Communities of Practice (redhat-cop). These playbooks and their corresponding galaxy dependencies build an OpenShift cluster in the cloud (AWS in this case). The playbooks also create any added infrastructure needed such as an Identity Management server. The environment is easily scalable based on the inventory file.  Provided here are inventories for testing and production usage.
+The classroom is built using the *casl-ansible* playbooks from the
+Red Hat Communities of Practice (redhat-cop).
+These playbooks and their corresponding galaxy dependencies build an
+OpenShift cluster in the cloud (AWS in this case).
+The playbooks also create any added infrastructure needed such as
+an Identity Management server. The environment is easily scalable
+based on the inventory file.  Provided here are inventories for
+testing and production usage.
+
+link:./classroom/docs/Provision.adoc[Provisioning the DO500 Lab Environment]
 
 == Student Guide
 To be determined.
 
 == Instructor Guide
 To be determined.
-
- 

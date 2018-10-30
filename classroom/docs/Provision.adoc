@@ -1,0 +1,6 @@
+= DO500 Lab Environment Provisioning Guide
+This guide provides all the necessary information for provisioning the classroom environment for DO500 in AWS.
+
+== Dependencies
+The DO500 lab environment provisioning depends upon the following projects:
+
