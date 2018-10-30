@@ -29,6 +29,8 @@ These playbooks apply resources to the OpenShift cluster after it is built.
 for the account.
 2. Access to the Employee SKU with redhat.com credentials.
 3. A registry.redhat.io service account.
+4. A hosted zone must be established in the AWS account. These instructions
+currently assume `nextcle.com`
 
 == Provisioning Steps
 1. Set the following environment variables:
@@ -55,6 +57,10 @@ the Docker run commands.  Adjust as needed.
 Adjust as needed. All the private stuff is done through environment variables
 so that we can easily reuse these scripts and check them in and not reveal any secrets.
 +
-4. TODO: provision IDm and connect to OpenShift cluster
-5. TODO: install Gitlab on cluster and tie it to IDm
-6. TODO: provision user accounts on IDm
+
+
+=== TO DO List
+1. Provision IDm and connect to OpenShift cluster
+2. Install Gitlab on cluster and tie to IDm
+3. Provision user accounts on IDm
+4. Reconcile this approach to building classroom with GPTE agnostic_deployer
