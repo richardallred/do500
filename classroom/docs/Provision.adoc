@@ -24,4 +24,37 @@ These playbooks apply resources to the OpenShift cluster after it is built.
 +
 
 
+== Prerequisites
+1. AWS account with an IAM account enabled. You need the access and secret keys
+for the account.
+2. Access to the Employee SKU with redhat.com credentials.
+3. A registry.redhat.io service account.
+
 == Provisioning Steps
+1. Set the following environment variables:
++
+  RHSM_USER=<subscription-manager username>
+  RHSM_PASSWD=<subscription-manager password>
+  RHSM_POOL=<subscription pool for Employee SKU>
+  REG_USERNAME=<registry.redhat.io service account username>
+  REG_TOKEN=<registry.redhat.io service account token>
+  AWS_ACCESS_KEY_ID=<AWS access key>
+  AWS_SECRET_ACCESS_KEY=<AWS secret access key>
++
+2. Pull in playbook dependencies using Ansible Galaxy:
++
+  cd classroom
+  ansible-galaxy install -r do500-requirements.yml
++
+3. Follow the instructions at casl-ansible/docs/PROVISIONING_AWS.adoc using the
+following notes:
++
+* Example *provision.sh* and *deprovision.sh* scripts are given to help you with
+the Docker run commands.  Adjust as needed.
+* Completed ec2.ini, all.yml, and OSEv3.yml files are provided in *inventory/*.
+Adjust as needed. All the private stuff is done through environment variables
+so that we can easily reuse these scripts and check them in and not reveal any secrets.
++
+4. TODO: provision IDm and connect to OpenShift cluster
+5. TODO: install Gitlab on cluster and tie it to IDm
+6. TODO: provision user accounts on IDm
