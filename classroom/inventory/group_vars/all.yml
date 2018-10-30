@@ -1,0 +1,148 @@
+---
+
+# 'hosting_infrastructure' is used to drive the correct behavior based
+# on the hosting infrastructure, cloud provider, etc. Valid values are:
+# - 'openstack'
+# - 'aws'
+# - 'azure' (Coming Soon)
+# - 'gcp'
+hosting_infrastructure: aws
+
+# Cluster Environment ID to uniquely identify the environment
+env_id: "labs"
+
+# Define custom Master(s) API and Console Port
+# Comment out these entries to use a different port for both the Web Console and OpenShift API - Default port is 8443
+openshift_master_api_port: 443
+openshift_master_console_port: 443
+
+# Define custom console and apps public DNS Name
+# NOTE: These values need to be a subset of {{ dns_domain }}
+openshift_master_default_subdomain: "apps.{{ env_id }}.{{ dns_domain }}"
+openshift_master_cluster_hostname: "console.internal.{{ env_id }}.{{ dns_domain }}"
+openshift_master_cluster_public_hostname: "console.{{ env_id }}.{{ dns_domain }}"
+
+# Define infrastructure skeleton
+cloud_infrastructure:
+   region: us-east-1
+   image_name: ami-0d70a070 
+   masters:
+     count: 1 
+     flavor: m4.large
+     zones:
+     - us-east-1a 
+     name_prefix: master 
+     root_volume_size: 40 
+     docker_volume_size: 30 
+   appnodes:
+     count: 2 
+     flavor: m4.xlarge 
+     zones:
+     - us-east-1a 
+     name_prefix: app-node 
+     root_volume_size: 40 
+     docker_volume_size: 30 
+   infranodes:
+     count: 1 
+     flavor: m4.xlarge 
+     zones:
+     - us-east-1a 
+     name_prefix: infra-node 
+     root_volume_size: 40 
+     docker_volume_size: 30 
+
+## Temporary set for Docker and Gluster Storage block device names
+## NOTE: do not modify this info. Will be handle on a handle on a different way in the future
+docker_storage_block_device: '/dev/xvdb'
+docker_storage_mount_point: '/var/lib/containers/docker'
+cns_node_glusterfs_volume: '/dev/xvdg'
+
+# DNS configurations
+# the 'dns_domain' will be used as the base domain for the deployment and has
+# to be a domain that is managed by Route53 within your AWS account
+# the 'dns_nameservers' is a list of DNS resolvers the cluster should use
+dns_domain: "nextcle.com"
+dns_nameservers:
+- 8.8.8.8
+
+# Specify the version of docker to use
+#docker_version: "1.12.*"
+
+# AWS access keys used by the tools to interact with ec2
+# This example uses ENV variables (recommended), but the values
+# can also be specified here
+aws_access_key: "{{ lookup('env','AWS_ACCESS_KEY_ID') }}"
+aws_secret_key: "{{ lookup('env','AWS_SECRET_ACCESS_KEY') }}"
+
+# If aws_create_vpc is 'true', aws_vpc_id and aws_subnet_id variables will be ignored
+# Custom VPCs support is still WIP, so this variable MUST be true right now
+aws_create_vpc: true
+
+# Custom Subnet CIDR configuration. When selecting aws_create_vpc 'true' (this is the default right now), a default CIDR will be creted for both VPC and subnets on each AZ
+# Use the following variables if you want to configure custom CIDR
+#vpc_cidr: <REPLACE WITH VALID CIDR VALUE>
+#subnet_az1_cidr: <REPLACE WITH VALID CIDR VALUE>
+#subnet_az2_cidr: <REPLACE WITH VALID CIDR VALUE>
+#subnet_az3_cdir:  <REPLACE WITH VALID CIDR VALUE>
+
+# use the "-e" option to set "aws_key_name"
+#aws_key_name: my-ssh-region-key
+
+# These are the security groups created when aws_create_vpc is 'true'. Modify accordingly to your environment in case using existing VPC and SGs
+# NOTE: The use of custom VPC is not supported yet
+aws_master_sgroups: ['ocp-ssh', 'ocp-master', 'ocp-app-node']
+aws_etcd_sgroups: ['ocp-ssh', 'ocp-etcd', 'ocp-app-node']
+aws_infra_node_sgroups: ['ocp-ssh', 'ocp-infra-node', 'ocp-app-node']
+aws_app_node_sgroups: ['ocp-ssh', 'ocp-app-node']
+aws_cns_node_sgroups: ['ocp-ssh', 'ocp-app-node', 'ocp-cns']
+
+## These are the tag used to create different dynamic groups based on these names
+## NOTE: modifying these default values will affect on how the different type of nodes are discovered and configured on the required groups. You will need to update `hosts` inventory file accordingly if these values are modified 
+group_masters_tag: masters_aws
+group_masters_etcd_tag: masters_etcd_aws
+group_etcd_nodes_tag: etcd_nodes_aws
+group_infra_nodes_tag: infra_nodes_aws
+group_app_nodes_tag: app_nodes_aws
+group_cns_nodes_tag: cns_nodes_aws
+
+## These tags will define the labels your OCP Nodes will be assigned with as part of the OCP deployment process
+labels_masters_tag: '{"region": "default"}'
+labels_etcd_nodes_tag: '{"region": "primary"}'
+labels_infra_nodes_tag: '{"region": "infra"}'
+labels_app_nodes_tag: '{"region": "primary"}'
+labels_cns_nodes_tag: '{"region": "primary"}'
+
+
+# Subscription Management Details
+rhsm_register: True
+rhsm_repos:
+  - "rhel-7-server-rpms"
+  - "rhel-7-server-ose-3.10-rpms"
+  - "rhel-7-server-extras-rpms"
+  - "rhel-7-server-ansible-2.4-rpms"
+
+# Uncomment the following to use Red Hat Satellite:
+#rhsm_server_hostname: 'sat-6.example.com'
+#rhsm_org_id: 'CASL_ORG'
+#rhsm_activationkey: 'casl-latest'
+
+# Uncomment the following to use RHSM username, password from environment variable:
+rhsm_username: "{{ lookup('env', 'RHSM_USER' )}}"
+rhsm_password: "{{ lookup('env', 'RHSM_PASSWD' )}}"
+
+# leave commented out if you want to `--auto-attach` a pool
+rhsm_pool: "{{ lookup('env', 'RHSM_POOL' )}}"
+
+# WARNING: By default the tools will update RPMs during provisioning. If any packages are
+# updated, the host(s) will reboot to ensure the correct versions are in use. This may
+# NOT be desirable during an consecutive runs to just apply minor changes. If you would
+# like to avoid "surprise" reboots, make sure to uncomment the following variable.
+# Do NOTE that a reboot should most likely happen on initial install, so it's important
+# that this variable is commented out or set to `True` for initial runs.
+#update_cluster_hosts: False
+
+# Uncomment the following `additional_list_of_packages_to_install` to list additional
+# packages/RPMs to install during install
+#additional_list_of_packages_to_install:
+#  - rpm-1
+#  - rpm-2
