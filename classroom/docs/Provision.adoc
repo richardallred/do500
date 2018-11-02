@@ -31,6 +31,7 @@ for the account.
 3. A registry.redhat.io service account.
 4. A hosted zone must be established in the AWS account. These instructions
 currently assume `nextcle.com`
+5. The Red Hat "Gold Images" need to be added to the AWS account. see https://access.redhat.com/articles/2962171.
 
 == Provisioning Steps
 1. Set the following environment variables:
