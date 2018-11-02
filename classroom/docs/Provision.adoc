@@ -47,7 +47,7 @@ currently assume `nextcle.com`
 2. Pull in playbook dependencies using Ansible Galaxy:
 +
   cd classroom
-  ansible-galaxy install -r do500-requirements.yml
+  ansible-galaxy install -r do500-requirements.yml -p galaxy
 +
 3. Follow the instructions at casl-ansible/docs/PROVISIONING_AWS.adoc using the
 following notes:

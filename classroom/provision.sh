@@ -1,7 +1,7 @@
 #!/bin/sh
 docker run -u `id -u` \
       -v $HOME/.ssh/glsdemo2.pem:/opt/app-root/src/.ssh/id_rsa:Z \
-      -v $HOME/Sources/labs/:/tmp/src:Z \
+      -v $HOME/Sources/do500/galaxy/:/tmp/src:Z \
       -e RHSM_USER=$MINISHIFT_USERNAME \
       -e RHSM_PASSWD=$MINISHIFT_PASSWORD \
       -e RHSM_POOL=$RHSM_POOL \
