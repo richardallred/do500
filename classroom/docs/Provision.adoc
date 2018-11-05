@@ -32,6 +32,8 @@ for the account.
 4. A hosted zone must be established in the AWS account. These instructions
 currently assume `nextcle.com`
 5. The Red Hat "Gold Images" need to be added to the AWS account. see https://access.redhat.com/articles/2962171.
+6. A private key file for access to the instances. You may create and upload one
+to your AWS account or use the glsdemo2.pem key. Contact Jim Rigsbee for the key file.
 
 == Provisioning Steps
 1. Set the following environment variables:
@@ -54,8 +56,8 @@ following notes:
 +
 * Example *provision.sh* and *deprovision.sh* scripts are given to help you with
 the Docker run commands.  Adjust as needed.
-* Completed ec2.ini, all.yml, and OSEv3.yml files are provided in *inventory/*.
-Adjust as needed. All the private stuff is done through environment variables
+* Completed *ec2.ini*, *all.yml*, and *OSEv3.yml* files are provided in *inventory/*.
+Adjust as needed. All the private variables are provided through environment variables
 so that we can easily reuse these scripts and check them in and not reveal any secrets.
 +
 
