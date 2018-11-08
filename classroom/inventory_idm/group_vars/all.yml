@@ -1,0 +1,8 @@
+---
+pkg_update: true
+hosting_infrastructure: aws
+ansible_user: ec2-user
+csv_doc_file_name: users.csv
+ipa_admin_user: admin
+ipa_admin_password: Adm1n123!
+ipa_host: idm.labs.nextcle.com

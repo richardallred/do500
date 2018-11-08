@@ -1,0 +1,3 @@
+user_name,first_name,last_name,email,expiration_date,group,labs_sponsor,addl_info,added_date,idm,generate,atlassian
+jrigsbee,Jim,Rigsbee,jrigsbee@redhat.com,,admins,[core team],Internal user,,,,
+test1,Test,User,jrigsbee@redhat.com,,users,,,,,,

@@ -56,11 +56,20 @@ following notes:
 +
 * Example *provision.sh* and *deprovision.sh* scripts are given to help you with
 the Docker run commands.  Adjust as needed.
-* Completed *ec2.ini*, *all.yml*, and *OSEv3.yml* files are provided in *inventory/*.
+* Create an inventory in casl-ansible/inventory by copying sample.aws.example.com folder.
+* Completed *ec2.ini*, *all.yml*, and *OSEv3.yml* files are provided in *inventory_ocp/*.
 Adjust as needed. All the private variables are provided through environment variables
 so that we can easily reuse these scripts and check them in and not reveal any secrets.
+Copy these files to the folder you created for the inventory in casl-ansible.
 +
-
+4. Using the AWS console, provision a t2.medium server with a DNS name of idm.<env_id>.nextcle.com.
+Use the Gold Red Hat 7.5 AMI. Adjust the inventory files to match the host name.
+5. Run the IDm provisioning playbook:
++
+  ansible-playbook -i inventory_idm/ galaxy/casl-ansible/galaxy/infra-ansible/playbooks/provision-idm/idm.yml
++
+Note: I had to comment out the import_playbook: dns.yml in idm.yml playbook so that it
+does not try to create DNS records.
 
 === TO DO List
 1. Provision IDm and connect to OpenShift cluster

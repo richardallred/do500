@@ -2,8 +2,8 @@
 docker run -u `id -u` \
       -v $HOME/.ssh/glsdemo2.pem:/opt/app-root/src/.ssh/id_rsa:Z \
       -v $HOME/Sources/do500/galaxy/:/tmp/src:Z \
-      -e RHSM_USER=$MINISHIFT_USERNAME \
-      -e RHSM_PASSWD=$MINISHIFT_PASSWORD \
+      -e RHSM_USER=$RHSM_USER \
+      -e RHSM_PASSWD=$RHSM_PASSWD \
       -e RHSM_POOL=$RHSM_POOL \
       -e REG_USERNAME=$REG_USERNAME \
       -e REG_TOKEN=$REG_TOKEN \
