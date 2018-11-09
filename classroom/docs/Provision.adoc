@@ -64,15 +64,21 @@ Copy these files to the folder you created for the inventory in casl-ansible.
 +
 4. Using the AWS console, provision a t2.medium server with a DNS name of idm.<env_id>.nextcle.com.
 Use the Gold Red Hat 7.5 AMI. Adjust the inventory files to match the host name.
+Add Route53 records as follows:
+* public zone: associate idm.labs.nextcle.com with its public DNS name
+* private zone: associate idm.labs.nextcle.com with its private IP address (not name)
+* Add a reverse DNS private zone, e.g. 1.20.10.in-addr.arpa for the VPC subnet. Add an entry for xxx.1.20.10.in-addr.arpa PTR pointing to idm.labs.nextcle.com.
 5. Run the IDm provisioning playbook:
 +
   ansible-playbook -i inventory_idm/ galaxy/casl-ansible/galaxy/infra-ansible/playbooks/provision-idm/idm.yml
 +
 Note: I had to comment out the import_playbook: dns.yml in idm.yml playbook so that it
 does not try to create DNS records.
+6. Add stanza to /etc/origin/master/master-config.yaml for identityProvider - see master-config.yaml.ldap for specific settings.
+7. Add user accounts via https://idm.labs.nextcle.com. Reset passwords on each account.
+8. Restart the master api and controllers. On master, /usr/local/bin/master-restart api and /usr/local/bin/master-restart controllers. You should now be able to login with LDAP credentials from IdM. 
 
 === TO DO List
-1. Provision IDm and connect to OpenShift cluster
 2. Install Gitlab on cluster and tie to IDm
 3. Provision user accounts on IDm
 4. Reconcile this approach to building classroom with GPTE agnostic_deployer
