@@ -19,6 +19,7 @@ openshift_cloudprovider_aws_secret_key: "{{ lookup('env','AWS_SECRET_ACCESS_KEY'
 openshift_clusterid: "{{ env_id }}"
 
 # Red Hat Registry authentication
+oreg_url: 'registry.redhat.io/openshift3/ose-${component}:${version}'
 oreg_auth_username: "{{ lookup('env','REG_USERNAME') }}"
 oreg_auth_password: "{{ lookup('env','REG_TOKEN') }}"
 
@@ -29,7 +30,7 @@ openshift_deployment_type: openshift-enterprise
 containerized: false
 
 ### OCP version to install
-openshift_release: v3.10
+openshift_release: v3.11
 
 osm_default_node_selector: 'node-role.kubernetes.io/compute=true'
 osm_use_cockpit: true
