@@ -14,6 +14,7 @@ building the OpenShift cluster. It depends on the following projects:
 +
 These playbooks create add-on infrastructure for the cluster.
 +
+NOTE: We are currently using Jim Rigsbee's fork for automated provisioning with AWS
 * openshift-ansible
 +
 These playbooks install the OpenShift cluster.
@@ -58,8 +59,12 @@ bob,,AKIANNNNNNNNNNNNN,BBBBB/ccccc,https://933309984444.signin.aws.amazon.com/co
 +
 ```
 ansible-galaxy install -r do500-requirements.yml -p galaxy
+cp casl-requirements.yml galaxy/casl-ansible
+cd galaxy/casl-ansible
+ansible-galaxy install -r casl-requirements.yml -p galaxy
 ```
 +
+NOTE: We are using Jim Rigsbee's fork of infra-ansible at this time.
 . Edit *inventory_ocp/ec2.ini*:
 +
 ```

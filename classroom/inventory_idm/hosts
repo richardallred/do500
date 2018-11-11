@@ -1,6 +1,2 @@
-[idm]
-idm.labs.nextcle.com
-[identity-hosts]
-idm.labs.nextcle.com
-[mail-host]
+[idm-server]
 idm.labs.nextcle.com
