@@ -9,7 +9,7 @@
 hosting_infrastructure: aws
 
 # Cluster Environment ID to uniquely identify the environment
-env_id: "labs"
+env_id: "labs311"
 
 # Define custom Master(s) API and Console Port
 # Comment out these entries to use a different port for both the Web Console and OpenShift API - Default port is 8443
