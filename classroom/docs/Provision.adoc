@@ -127,21 +127,41 @@ using the Ansible playbooks and roles provided by `casl-ansible` and its related
 
 
 === Identity Manager (LDAP)
-. Using the AWS console, provision a t2.medium server with a DNS name of idm.<env_id>.nextcle.com.
-Use the Gold Red Hat 7.5 AMI. Adjust the inventory files to match the host name.
-Add Route53 records as follows adjusting the DNS name as needed:
-* public zone: associate idm.<env_id>.nextcle.com with its public DNS name
-* private zone: associate idm.<env_id>.nextcle.com with its private IP address (not name)
-* Add a reverse DNS private zone, e.g. 1.20.10.in-addr.arpa for the VPC subnet. Add an entry for xxx.1.20.10.in-addr.arpa PTR pointing to idm.<env_id>.nextcle.com.
-. Run the IDm provisioning playbook:
+. Edit the *inventory_idm/hosts* file and change the name of the server to match the
+subdomain and domain used by the OpenShift cluster.
+. Edit the *inventory_idm/group_vars/all.yml* file:
 +
 ```
-ansible-playbook -i inventory_idm/ galaxy/casl-ansible/galaxy/infra-ansible/playbooks/provision-idm/idm.yml
+...
+vpc_name: labs   <---- make sure this matches the env_id for the cluster
+aws_region: us-east-1   <---- make sure this matches the cluster region
+# This should be a Gold AMI for Red Hat Linux
+ami_id: ami-0d70a070   <---- make sure this matches the cluster AMI
+dns_domain: nextcle.com  <---- verify the domain name
+
+instance:
+  flavor: t2.medium
+  zone: us-east-1a    <----- use the same availability zone as cluster
+  public_ip: yes
+  reverse_lookup: yes
+  reverse_zone: 1.20.10.in-addr.arpa. <----- change based on the subnet for cluster
+  hostname_prefix: idm
+  root_volume_size: 25
+...
 ```
 +
-NOTE: I had to comment out the import_playbook: dns.yml in idm.yml playbook so that it
-does not try to create DNS records for the AWS environment.
-. Add stanza to */etc/origin/master/master-config.yaml* for identityProvider.
+. Edit the *inventory_idm/group_vars/idm-server.yml* file:
++
+```
+ansible_ssh_private_key_file: ~/.ssh/glsdemo2.pem   <---- use correct key file
+
+idm_master_hostname: idm.labs.nextcle.com  <---- adjust subdomain / domain
+idm_domain: labs.nextcle.com  <---- adjust subdomain / domain
+idm_realm: labs.nextcle.com  <---- adjust subdomain / domain
+```
++
+. Execute ./provision-idm.sh
+. On master, add stanza to */etc/origin/master/master-config.yaml* for identityProvider.
 See *master-config.yaml.ldap* for specific settings.
 . Add user accounts via https://idm.<env_id>.nextcle.com. Reset passwords on each account.
 +

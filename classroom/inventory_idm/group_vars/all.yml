@@ -16,7 +16,7 @@ instance:
   public_ip: yes
   reverse_lookup: yes
   reverse_zone: 1.20.10.in-addr.arpa.
-  hostname_prefix: idm2
+  hostname_prefix: idm
   root_volume_size: 25
   security_group:
     name: idm
