@@ -39,6 +39,7 @@ to your AWS account or use the glsdemo2.pem key. Contact Jim Rigsbee for the key
 == Provisioning Steps
 
 === OpenShift Cluster
+. Copy *env.sh.sample* to *env.sh*.
 . Edit *env.sh*:
 +
 ```
