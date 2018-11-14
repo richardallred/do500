@@ -1,0 +1,100 @@
+{
+  "name": "todolist",
+  "version": "1.0.0",
+  "main": "server/app.js",
+  "dependencies": {
+    "bench-rest": "^1.2.4",
+    "body-parser": "1.18.2",
+    "composable-middleware": "0.3.0",
+    "compression": "1.7.2",
+    "connect-mongo": "2.0.1",
+    "cookie-parser": "1.4.3",
+    "ejs": "2.5.7",
+    "errorhandler": "1.5.0",
+    "express": "4.16.3",
+    "express-jwt": "5.3.1",
+    "express-session": "1.15.6",
+    "jsonwebtoken": "8.2.0",
+    "lodash": "4.17.5",
+    "method-override": "2.3.10",
+    "mongoose": "5.0.11",
+    "morgan": "1.9.0",
+    "serve-favicon": "2.4.5"
+  },
+  "devDependencies": {
+    "blanket": "1.2.3",
+    "fs-extra": "5.0.0",
+    "grunt": "1.0.2",
+    "grunt-build-control": "0.7.1",
+    "grunt-concurrent": "2.3.1",
+    "grunt-contrib-clean": "1.1.0",
+    "grunt-contrib-concat": "1.0.1",
+    "grunt-contrib-copy": "1.0.0",
+    "grunt-contrib-jshint": "1.1.0",
+    "grunt-env": "0.4.4",
+    "grunt-express-server": "0.5.4",
+    "grunt-mocha-test": "0.13.3",
+    "grunt-newer": "1.3.0",
+    "grunt-nodemon": "0.4.2",
+    "grunt-open": "0.2.3",
+    "grunt-rev": "0.1.0",
+    "jasmine-reporters": "2.3.0",
+    "jit-grunt": "0.10.0",
+    "jshint-jenkins-checkstyle-reporter": "0.1.2",
+    "jshint-junit-reporter": "0.2.3",
+    "jshint-stylish": "2.2.1",
+    "mocha": "5.0.5",
+    "mocha-cobertura-reporter": "1.0.4",
+    "mocha-junit-reporter": "1.17.0",
+    "mocha-lcov-reporter": "1.3.0",
+    "nyc": "^11.6.0",
+    "open": "0.0.5",
+    "q": "1.5.1",
+    "request": "2.85.0",
+    "requirejs": "2.3.5",
+    "shelljs": "0.8.1",
+    "should": "13.2.1",
+    "supertest": "3.0.0",
+    "time-grunt": "1.4.0",
+    "travis-cov": "0.2.5"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "scripts": {
+    "start": "node server/app.js",
+    "dev": "./node_modules/.bin/grunt serve",
+    "jshint": "./node_modules/.bin/grunt jshint",
+    "jshint:ci": "./node_modules/.bin/grunt jshint:ci_server",
+    "clean": "rm -rf reports package-contents*",
+    "build:ci": "mkdir -p package-contents && cp -vr server Dockerfile package.json package-contents",
+    "package": "zip -r package-contents.zip package-contents",
+    "perf-test:create": "./node_modules/.bin/grunt perf-test:dev:create",
+    "perf-test:show": "./node_modules/.bin/grunt perf-test:dev:show",
+    "test": "node_modules/.bin/nyc node_modules/.bin/mocha 'server/**/*.spec.js' --exit",
+    "test:ci": "export MOCHA_FILE='reports/server/mocha/test-results.xml' && export NODE_ENV=ci && node_modules/.bin/nyc node_modules/.bin/mocha 'server/**/*.spec.js' -R mocha-junit-reporter --exit",
+    "mongo": "docker run -i -d --name mongo-local -p 27017:27017 mongo",
+    "mongo:drop": "npm run mongo:stop && docker rm mongo-local",
+    "mongo:stop": "docker stop mongo-local",
+    "mongo:start": "docker start mongo-local",
+    "prepare-nexus": "curl -X POST  -u admin:admin123 -H 'Content-Type: application/json' -H 'Accept: application/json' -d @nexus.json http://${NEXUS_SERVICE_HOST}:${NEXUS_SERVICE_PORT}/service/siesta/rest/v1/script && curl -X POST  -u admin:admin123 -H 'Content-Type: text/plain' -H 'Accept: application/json' http://${NEXUS_SERVICE_HOST}:${NEXUS_SERVICE_PORT}/service/siesta/rest/v1/script/zip/run",
+    "publish": "curl -vvv -u admin:admin123 --upload-file package-contents.zip http://${NEXUS_SERVICE_HOST}:${NEXUS_SERVICE_PORT}/repository/zip/com/redhat/todolist/${JOB_NAME}.${BUILD_NUMBER}/package-contents.zip",
+    "publish:get": "curl -vvv http://admin:admin123@${NEXUS_SERVICE_HOST}:${NEXUS_SERVICE_PORT}/repository/zip/com/redhat/todolist/${BUILD_TAG}/package-contents.zip -o package-contents.zip"
+  },
+  "private": true,
+  "nyc": {
+    "include": [
+      "server/**/*.js"
+    ],
+    "exclude": [
+      "server/**/*.spec.js"
+    ],
+    "ignore-class-method": "methodToIgnore",
+    "reporter": [
+      "html",
+      "text",
+      "cobertura"
+    ],
+    "report-dir": "./reports/coverage"
+  }
+}

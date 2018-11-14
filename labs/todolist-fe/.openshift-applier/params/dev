@@ -1,0 +1,5 @@
+PIPELINES_NAMESPACE=rsriniva-ci-cd
+NAME=todolist-fe
+DEPLOYER_USER=jenkins
+APP_TAG=latest
+NAMESPACE=rsriniva-dev

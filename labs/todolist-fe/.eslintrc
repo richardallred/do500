@@ -1,0 +1,12 @@
+{
+  "root": true,
+  "extends": ["plugin:vue/essential", "@vue/prettier"],
+  "env": {
+    "es6": true,
+    "node": true
+  },
+  "ecmaFeatures": {
+    "modules": true
+  },
+  // "rules": { "no-unused-vars": 0 }
+}

@@ -1,0 +1,42 @@
+---
+openshift_cluster_content:
+- object: app-builds
+  content:
+  - name: todolist-api-build
+    template: "{{ playbook_dir }}/templates/todolist-api-build.yml"
+    params: "{{ playbook_dir }}/params/build"
+    namespace: "{{ ci_cd_namespace }}"
+    tags:
+    - build
+- object: deploy-dev
+  content:
+  - name:  todolist-api
+    template: "{{ playbook_dir }}/templates/todolist-api-deploy.yml"
+    params: "{{ playbook_dir }}/params/dev"
+    namespace: "{{ dev_namespace }}"
+    tags:
+    - deploy
+    - dev
+  - name:  todolist-api-db
+    template: "{{ playbook_dir }}/templates/mongodb.yml"
+    params: "{{ playbook_dir }}/params/mongodb"
+    namespace: "{{ dev_namespace }}"
+    tags:
+    - deploy
+    - dev
+- object: deploy-test
+  content:
+  - name:  todolist-api
+    template: "{{ playbook_dir }}/templates/todolist-api-deploy.yml"
+    params: "{{ playbook_dir }}/params/test"
+    namespace: "{{ test_namespace }}"
+    tags:
+    - deploy
+    - test
+  - name:  todolist-api-db
+    template: "{{ playbook_dir }}/templates/mongodb.yml"
+    params: "{{ playbook_dir }}/params/mongodb"
+    namespace: "{{ test_namespace }}"
+    tags:
+    - deploy
+    - test

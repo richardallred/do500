@@ -1,0 +1,10 @@
+---
+- name: Build and Deploy todolist-fe
+  hosts: app
+  vars:
+    ci_cd_namespace: rsriniva-ci-cd
+    dev_namespace: rsriniva-dev
+    test_namespace: rsriniva-test
+  tasks:
+    - include_role:
+        name: openshift-applier/roles/openshift-applier

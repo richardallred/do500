@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Todo.vue should render the html layout like the snapshot (see /__snapshots__/Todo.spec.js.snap) 1`] = `
+<div>
+  <!---->
+</div>
+`;

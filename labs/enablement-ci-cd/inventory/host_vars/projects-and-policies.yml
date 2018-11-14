@@ -1,0 +1,23 @@
+---
+ansible_connection: local
+openshift_cluster_content:
+- object: projectrequest
+  content:
+  - name: "{{ ci_cd_namespace }}"
+    template: "{{ playbook_dir }}/templates/project-requests.yml"
+    template_action: create
+    params: "{{ playbook_dir }}/params/project-requests-ci-cd"
+    tags:
+    - projects
+  - name: "{{ dev_namespace }}"
+    template: "{{ playbook_dir }}/templates/project-requests.yml"
+    template_action: create
+    params: "{{ playbook_dir }}/params/project-requests-dev"
+    tags:
+    - projects
+  - name: "{{ test_namespace }}"
+    template: "{{ playbook_dir }}/templates/project-requests.yml"
+    template_action: create
+    params: "{{ playbook_dir }}/params/project-requests-test"
+    tags:
+    - projects

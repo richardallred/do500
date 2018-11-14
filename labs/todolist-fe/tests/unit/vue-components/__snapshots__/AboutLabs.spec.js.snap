@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AboutLabs.vue has the expected html structure 1`] = `
+<div>
+  <h3>
+    Learn more about Open Innovation Labs
+  </h3>
+   
+  <ul>
+    <li>
+      <a
+        href="https://www.redhat.com/en/engage/open-innovation-labs-20170905?sc_cid=701f2000000tvPOAAY"
+        target="_blank"
+      >
+        Labs Homepage
+      </a>
+    </li>
+    <li>
+      <a
+        href="https://www.redhat.com/en/services/consulting/open-innovation-labs/locations"
+        target="_blank"
+      >
+        Lab Locations
+      </a>
+    </li>
+    <li>
+      <a
+        href="https://www.redhat.com/en/explore/my-open-innovation-lab-stack"
+        target="_blank"
+      >
+        Labs Tech
+      </a>
+    </li>
+    <li>
+      <a
+        href="https://developers.redhat.com/blog/2018/01/26/part-1-inside-open-innovation-labs-residency/"
+        target="_blank"
+      >
+        Inside a Residency Blog
+      </a>
+    </li>
+  </ul>
+   
+  <h3>
+    Connect with us
+  </h3>
+   
+  <ul>
+    <li>
+      <a
+        href="https://www.youtube.com/watch?v=RxOKoqpDuIA"
+        target="_blank"
+      >
+        YouTube
+      </a>
+    </li>
+    <li>
+      <a
+        href="https://twitter.com/redhatlabs?lang=en"
+        target="_blank"
+      >
+        Twitter
+      </a>
+    </li>
+  </ul>
+</div>
+`;

@@ -1,0 +1,87 @@
+[
+  {
+    "request": {
+      "url": "^/todos",
+      "method": "GET"
+    },
+    "response": {
+      "status": 200,
+      "headers": {
+        "Content-Type": "application/json",
+        "some-arb-HEADER": "for testing"
+      },
+      "latency": 800,
+      "body": [
+        {
+          "title": "Learn some stuff about Jenkins",
+          "_id": "abcdef1234567890abcdef12",
+          "completed": true
+        },
+        {
+          "title": "Completed lab 1",
+          "_id": "abcdef1234567890abcdef13",
+          "completed": false
+        }
+      ]
+    }
+  },
+  {
+    "request": {
+      "url": "^/todos/*",
+      "method": "PUT",
+      "headers": {
+        "Content-Type": "application/json"
+      }
+    },
+    "response": {
+      "status": 200,
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "latency": 300,
+      "body": {
+        "title": "whatever",
+        "_id": "abcdef1234567890abcdef12",
+        "completed": true
+      }
+    }
+  },
+  {
+    "request": {
+      "url": "^/todos/*",
+      "method": "DELETE",
+      "headers": {
+        "Content-Type": "application/json"
+      }
+    },
+    "response": {
+      "status": 204,
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "latency": 150,
+      "body": {}
+    }
+  },
+  {
+    "request": {
+      "url": "^/todos",
+      "method": "POST",
+      "headers": {
+        "Content-Type": "application/json"
+      }
+    },
+    "response": {
+      "status": 201,
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "latency": 445,
+      "body": {
+        "title": "some new thing",
+        "_id": "abcdef1234567890abcdef12",
+        "completed": false
+      }
+    }
+  }
+]

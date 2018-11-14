@@ -1,0 +1,13 @@
+LDAP_BIND_DN=uid=test1,cn=users,cn=accounts,dc=labs,dc=nextcle,dc=com
+LDAP_USER_FILTER=(memberOf=cn=users,cn=groups,cn=accounts,dc=labs,dc=nextcle,dc=com)
+LDAP_PASSWORD=redhat123
+LDAP_HOST=idm.labs.nextcle.com
+LDAP_PORT=389
+LDAP_ENCRYPTION=plain
+LDAP_BASE=cn=users,cn=accounts,dc=labs,dc=nextcle,dc=com
+LDAP_LABEL="Residency Labs LDAP"
+GITLAB_ROOT_PASSWORD=admin123
+GITLAB_DATA_VOL_SIZE=2Gi
+POSTGRESQL_VOL_SIZE=1Gi
+APPLICATION_HOSTNAME=gitlab.apps.labs.nextcle.com
+NAMESPACE=rsriniva-ci-cd

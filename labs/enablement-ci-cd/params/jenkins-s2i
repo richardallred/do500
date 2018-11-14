@@ -1,0 +1,6 @@
+SOURCE_REPOSITORY_URL=https://gitlab.apps.labs.nextcle.com/test1/enablement-ci-cd.git
+NAME=jenkins
+SOURCE_REPOSITORY_CONTEXT_DIR=jenkins-s2i
+IMAGE_STREAM_NAMESPACE=rsriniva-ci-cd
+SOURCE_REPOSITORY_USERNAME=test1
+SOURCE_REPOSITORY_PASSWORD=redhat123

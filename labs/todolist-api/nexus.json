@@ -1,0 +1,5 @@
+{
+  "name": "zip",
+  "type": "groovy",
+  "content": "repository.createRawHosted('zip')"
+}

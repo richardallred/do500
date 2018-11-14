@@ -1,0 +1,28 @@
+---
+openshift_cluster_content:
+- object: app-builds
+  content:
+  - name: todolist-fe-build
+    template: "{{ playbook_dir }}/templates/todolist-fe-build.yml"
+    params: "{{ playbook_dir }}/params/build"
+    namespace: "{{ ci_cd_namespace }}"
+    tags:
+    - build
+- object: deploy-dev
+  content:
+  - name:  todolist-fe
+    template: "{{ playbook_dir }}/templates/todolist-fe-deploy.yml"
+    params: "{{ playbook_dir }}/params/dev"
+    namespace: "{{ dev_namespace }}"
+    tags:
+    - deploy
+    - dev
+- object: deploy-test
+  content:
+  - name:  todolist-fe
+    template: "{{ playbook_dir }}/templates/todolist-fe-deploy.yml"
+    params: "{{ playbook_dir }}/params/test"
+    namespace: "{{ test_namespace }}"
+    tags:
+    - deploy
+    - test
