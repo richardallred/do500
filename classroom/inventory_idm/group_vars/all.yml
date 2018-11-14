@@ -21,4 +21,4 @@ instance:
   security_group:
     name: idm
     description: "IdM ingress"
-    rules: "[{ 'proto': 'tcp', 'from_port': '389', 'to_port': '389', 'cidr_ip': '10.20.1.0/24'}, { 'proto': 'tcp', 'from_port': '22', 'to_port': '22', 'cidr_ip': '0.0.0.0/0'}, { 'proto': 'tcp', 'from_port': '80', 'to_port': '80', 'cidr_ip': '0.0.0.0/0'}, { 'proto': 'tcp', 'from_port': '443', 'to_port': '443', 'cidr_ip': '0.0.0.0/0'}]"
+    rules: "[{ 'proto': 'tcp', 'from_port': '389', 'to_port': '389', 'cidr_ip': '10.20.1.0/24'}, { 'proto': 'tcp', 'from_port': '22', 'to_port': '22', 'cidr_ip': '0.0.0.0/0'}, { 'proto': 'tcp', 'from_port': '80', 'to_port': '80', 'cidr_ip': '0.0.0.0/0'}, { 'proto': 'tcp', 'from_port': '443', 'to_port': '443', 'cidr_ip': '0.0.0.0/0'}, { 'proto': 'tcp', 'from_port': '636', 'to_port': '636', 'cidr_ip': '10.20.1.0/24'}]"
