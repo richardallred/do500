@@ -35,3 +35,11 @@ openshift_cluster_content:
     params: "{{ playbook_dir }}/params/jenkins-s2i"
     tags:
     - jenkins
+- object: "Jenkins slave npm"
+  content:
+  - name: "jenkins-npm-slave"
+    namespace: "openshift"
+    template: "{{ playbook_dir }}/templates/jenkins-slave-generic-template.yml"
+    params: "{{ playbook_dir }}/params/jenkins-slave-npm"
+    tags:
+    - jenkins-slave-npm
