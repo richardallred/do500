@@ -16,4 +16,4 @@ docker run -u `id -u` \
       -e INVENTORY_DIR=/tmp/src/casl-ansible/inventory/do500.aws.d/inventory \
       -e PLAYBOOK_FILE=/tmp/src/casl-ansible/playbooks/openshift/end-to-end.yml \
       -e OPTS="-e aws_key_name=glsdemo2" -t \
-      redhat-cop/casl-ansible
+      quay.io/redhat-cop/casl-ansible

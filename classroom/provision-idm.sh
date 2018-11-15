@@ -7,4 +7,4 @@ docker run -u `id -u` \
       -e INVENTORY_DIR=/tmp/src/inventory_idm/ \
       -e PLAYBOOK_FILE=/tmp/src/casl-ansible/galaxy/infra-ansible/playbooks/provision-idm-server/main.yml \
       -e OPTS="-e aws_key_name=glsdemo2" -it \
-      redhat-cop/casl-ansible
+      quay.io/redhat-cop/casl-ansible
