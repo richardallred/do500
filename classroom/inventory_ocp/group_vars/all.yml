@@ -24,13 +24,14 @@ openshift_master_cluster_public_hostname: "console.{{ env_id }}.{{ dns_domain }}
 
 # Define infrastructure skeleton
 cloud_infrastructure:
-   region: us-east-1
-   image_name: ami-0d70a070
+   region: us-east-2
+#   image_name: ami-0d70a070 # us-east-1
+   image_name: ami-8f2617ea 
    masters:
      count: 1
      flavor: m4.large
      zones:
-     - us-east-1a
+     - us-east-2a
      name_prefix: master
      root_volume_size: 40
      docker_volume_size: 20
@@ -38,7 +39,7 @@ cloud_infrastructure:
      count: 1
      flavor: m4.large
      zones:
-     - us-east-1a
+     - us-east-2a
      name_prefix: app-node
      root_volume_size: 40
      docker_volume_size: 20
@@ -46,7 +47,7 @@ cloud_infrastructure:
      count: 1
      flavor: m4.large
      zones:
-     - us-east-1a
+     - us-east-2a
      name_prefix: infra-node
      root_volume_size: 40
      docker_volume_size: 20
@@ -120,6 +121,7 @@ rhsm_repos:
   - "rhel-7-server-ose-3.11-rpms"
   - "rhel-7-server-extras-rpms"
   - "rhel-7-server-ansible-2.6-rpms"
+  - "rhel-7-server-optional-rpms"
 
 # Uncomment the following to use Red Hat Satellite:
 #rhsm_server_hostname: 'sat-6.example.com'
