@@ -36,7 +36,7 @@ describe("ListOfTodos.vue", () => {
   it("calls the loadTodos function from actionsjs when created", () => {
     const wrapper = shallow(ListOfTodos, { store, localVue });
     expect(wrapper).toBeTruthy();
-    expect(actions.loadTodos).not.toHaveBeenCalled();
+    expect(actions.loadTodos).toHaveBeenCalled();
   });
 
   it("maps getters with todos when computed", () => {
