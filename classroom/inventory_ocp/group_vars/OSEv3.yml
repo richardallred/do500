@@ -24,10 +24,10 @@ oreg_auth_username: "{{ lookup('env','REG_USERNAME') }}"
 oreg_auth_password: "{{ lookup('env','REG_TOKEN') }}"
 
 # CRI-O
-openshift_use_crio_only: True
-openshift_use_crio: True
-openshift_crio_enable_docker_gc: True
-openshift_crio_docker_gc_node_selector: {'runtime': 'cri-o'}
+#openshift_use_crio_only: True
+#openshift_use_crio: True
+#openshift_crio_enable_docker_gc: True
+#openshift_crio_docker_gc_node_selector: {'runtime': 'cri-o'}
 
 # OpenShift Specific Configuration Options
 # - Check the official OpenShift documentation for more details
