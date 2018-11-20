@@ -1,8 +1,7 @@
-= DO500 Provision Gitlab Instance
-```
-env=<env_id>
-admin_user=<username>
-admin_passwd=<password>
+#!/bin/bash
+env_id="labs311"
+admin_user="jrigsbee"
+admin_passwd="redhat123"
 mkdir temp
 cd temp
 git clone https://github.com/rht-labs/enablement-ci-cd
@@ -12,7 +11,7 @@ ansible-galaxy install -r requirements.yml --roles-path=roles
 oc login -u ${admin_user} -p ${admin_passwd} https://console.${env_id}.nextcle.com
 oc new-project common
 git checkout exercise1/git-nexus templates/gitlab.yml params/gitlab
-cat <<EOF >params/gitlab
+cat  <<EOF > params/gitlab
 LDAP_BIND_DN=uid=git,cn=users,cn=accounts,dc=${env_id},dc=nextcle,dc=com
 LDAP_USER_FILTER=(memberOf=cn=users,cn=groups,cn=accounts,dc=${env_id},dc=nextcle,dc=com)
 LDAP_PASSWORD=redhat123
@@ -41,4 +40,3 @@ EOF
 ansible-playbook apply.yml -e target=tools \
   -i inventory/ \
   -e "filter_tags=gitlab"
-```
