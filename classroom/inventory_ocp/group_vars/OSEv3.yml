@@ -25,9 +25,9 @@ oreg_auth_password: "{{ lookup('env','REG_TOKEN') }}"
 
 # CRI-O
 #openshift_use_crio_only: True
-openshift_use_crio: True
-openshift_crio_enable_docker_gc: True
-openshift_crio_docker_gc_node_selector: {'runtime': 'cri-o'}
+# openshift_use_crio: True
+# openshift_crio_enable_docker_gc: True
+# openshift_crio_docker_gc_node_selector: {'runtime': 'cri-o'}
 
 # Firewall
 os_firewall_use_firewalld: True
@@ -40,6 +40,7 @@ containerized: false
 
 ### OCP version to install
 openshift_release: v3.11
+openshift_image_tag: v3.11.16
 
 osm_default_node_selector: 'node-role.kubernetes.io/compute=true'
 osm_use_cockpit: true

@@ -34,12 +34,13 @@ for the account. Use the "Download CSV" button (available only during account cr
 currently assume `nextcle.com`
 . The Red Hat "Gold Images" need to be added to the AWS account. see https://access.redhat.com/articles/2962171.
 . A private key file for access to the instances. You may create and upload one
-to your AWS account or use the glsdemo2.pem key. Contact Jim Rigsbee for the key file.
+to your AWS account or use the glsdemo2.pem key. Contact Jim Rigsbee for the key file. Make sure a private key is defined
+in the AWS region you will target.
 
 == Provisioning Steps
 
 === OpenShift Cluster
-. Copy *env.sh.sample* to *env.sh*.
+. Copy *sample.env.sh* to *env.sh*.
 . Edit *env.sh*:
 +
 ```

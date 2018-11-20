@@ -1,10 +1,12 @@
 #!/bin/bash
-env_id="labs311"
-admin_user="jrigsbee"
-admin_passwd="redhat123"
+source ./env.sh
+env_id=$ENV_ID
+admin_user=$OCP_USERNAME
+admin_passwd=$OCP_PASSWORD
 mkdir temp
 cd temp
-git clone https://github.com/rht-labs/enablement-ci-cd
+#git clone https://github.com/rht-labs/enablement-ci-cd
+cp -a ../../labs/enablement-ci-cd .
 cd enablement-ci-cd
 ./git-pull-all.sh
 ansible-galaxy install -r requirements.yml --roles-path=roles

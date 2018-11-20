@@ -26,7 +26,7 @@ openshift_master_cluster_public_hostname: "console.{{ env_id }}.{{ dns_domain }}
 cloud_infrastructure:
    region: us-east-2
 #   image_name: ami-0d70a070 # us-east-1
-   image_name: ami-8f2617ea 
+   image_name: ami-8f2617ea
    masters:
      count: 1
      flavor: m4.large
@@ -34,7 +34,7 @@ cloud_infrastructure:
      - us-east-2a
      name_prefix: master
      root_volume_size: 40
-     docker_volume_size: 20
+     docker_volume_size: 30
    appnodes:
      count: 1
      flavor: m4.large
@@ -42,7 +42,7 @@ cloud_infrastructure:
      - us-east-2a
      name_prefix: app-node
      root_volume_size: 40
-     docker_volume_size: 20
+     docker_volume_size: 30
    infranodes:
      count: 1
      flavor: m4.large
@@ -50,7 +50,7 @@ cloud_infrastructure:
      - us-east-2a
      name_prefix: infra-node
      root_volume_size: 40
-     docker_volume_size: 20
+     docker_volume_size: 30
 
 ## Temporary set for Docker and Gluster Storage block device names
 ## NOTE: do not modify this info. Will be handle on a handle on a different way in the future
