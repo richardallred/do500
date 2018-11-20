@@ -1,0 +1,11 @@
+---
+ansible_user: ec2-user
+ansible_become: True
+
+idm_master_hostname: idm.labs311.nextcle.com
+idm_domain: labs311.nextcle.com
+idm_realm: labs311.nextcle.com
+idm_dm_password: "{{ lookup('env','IDM_DM_PASSWORD') }}"
+idm_admin_password: "{{ lookup('env','IDM_ADMIN_PASSWORD') }}"
+
+rhsm_register: false

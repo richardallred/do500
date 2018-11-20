@@ -1,6 +1,6 @@
 = DO500 Lab Environment Provisioning Guide
 This guide provides all the necessary information for provisioning the classroom
-environment for DO500 in AWS.
+environment for DO500 in AWS. All work is done in the `do500/classroom` folder.
 
 == Dependencies
 The DO500 lab environment provisioning depends upon the following projects:
@@ -10,75 +10,184 @@ The DO500 lab environment provisioning depends upon the following projects:
 This Red Hat Communities of Practice project provides the main playbooks for
 building the OpenShift cluster. It depends on the following projects:
 +
-** infra-ansible
+* infra-ansible
 +
 These playbooks create add-on infrastructure for the cluster.
 +
-** openshift-ansible
+NOTE: We are currently using Jim Rigsbee's fork for automated provisioning with AWS
+* openshift-ansible
 +
 These playbooks install the OpenShift cluster.
 +
-** openshift-applier
+* openshift-applier
 +
 These playbooks apply resources to the OpenShift cluster after it is built.
 +
 
 
 == Prerequisites
-1. AWS account with an IAM account enabled. You need the access and secret keys
-for the account.
-2. Access to the Employee SKU with redhat.com credentials.
-3. A registry.redhat.io service account.
-4. A hosted zone must be established in the AWS account. These instructions
+. AWS account with an IAM account enabled. You need the access and secret keys
+for the account. Use the "Download CSV" button (available only during account creation) to save credentials.
+. Access to the Employee SKU with redhat.com credentials.
+. A registry.redhat.io service account.
+. A hosted zone must be established in the AWS account. These instructions
 currently assume `nextcle.com`
-5. The Red Hat "Gold Images" need to be added to the AWS account. see https://access.redhat.com/articles/2962171.
-6. A private key file for access to the instances. You may create and upload one
-to your AWS account or use the glsdemo2.pem key. Contact Jim Rigsbee for the key file.
+. The Red Hat "Gold Images" need to be added to the AWS account. see https://access.redhat.com/articles/2962171.
+. A private key file for access to the instances. You may create and upload one
+to your AWS account or use the glsdemo2.pem key. Contact Jim Rigsbee for the key file. Make sure a private key is defined
+in the AWS region you will target.
 
 == Provisioning Steps
-1. Set the following environment variables:
+
+=== OpenShift Cluster
+. Copy *sample.env.sh* to *env.sh*.
+. Edit *env.sh*:
 +
-  RHSM_USER=<subscription-manager username>
-  RHSM_PASSWD=<subscription-manager password>
-  RHSM_POOL=<subscription pool for Employee SKU>
-  REG_USERNAME=<registry.redhat.io service account username>
-  REG_TOKEN=<registry.redhat.io service account token>
-  AWS_ACCESS_KEY_ID=<AWS access key>
-  AWS_SECRET_ACCESS_KEY=<AWS secret access key>
+```
+RHSM_USER=<subscription-manager username>
+RHSM_PASSWD=<subscription-manager password>
+RHSM_POOL=<subscription pool for Employee SKU>
+REG_USERNAME=<registry.redhat.io service account username>
+REG_TOKEN=<registry.redhat.io service account token>
+```
 +
-2. Pull in playbook dependencies using Ansible Galaxy:
+. Make sure your AWS credentials CSV file (downloaded from IAM account creation page)
+is located in $HOME as *aws-credentials.csv* The file contents look like this:
+```
+User name,Password,Access key ID,Secret access key,Console login link
+bob,,AKIANNNNNNNNNNNNN,BBBBB/ccccc,https://933309984444.signin.aws.amazon.com/console
+```
+. Pull in playbook dependencies using Ansible Galaxy:
 +
-  cd classroom
-  ansible-galaxy install -r do500-requirements.yml -p galaxy
+```
+ansible-galaxy install -r do500-requirements.yml -p galaxy
+cp casl-requirements.yml galaxy/casl-ansible
+cd galaxy/casl-ansible
+ansible-galaxy install -r casl-requirements.yml -p galaxy
+```
 +
-3. Follow the instructions at casl-ansible/docs/PROVISIONING_AWS.adoc using the
-following notes:
+NOTE: We are using Jim Rigsbee's fork of infra-ansible at this time.
+. Edit *inventory_ocp/ec2.ini*:
 +
-* Example *provision.sh* and *deprovision.sh* scripts are given to help you with
-the Docker run commands.  Adjust as needed.
-* Create an inventory in casl-ansible/inventory by copying sample.aws.example.com folder.
-* Completed *ec2.ini*, *all.yml*, and *OSEv3.yml* files are provided in *inventory_ocp/*.
-Adjust as needed. All the private variables are provided through environment variables
-so that we can easily reuse these scripts and check them in and not reveal any secrets.
-Copy these files to the folder you created for the inventory in casl-ansible.
+```
+regions = <region to place cloud formation in, e.g. us-east-1>
+instance_filters = tag:env_id=<env_id, e.g. labs>
+...
+cloud_infrastructure:
+   region: us-east-1   <---- Adjust accordingly, make it match ec2.ini values
+   image_name: ami-0d70a070    <--- This is unique for your account, Red Hat Gold AMI for RHEL 7.5
+   masters:
+     count: 1 <--- usually 1
+     flavor: m4.large  <---- this should be sufficient
+     zones:
+     - us-east-1a  <--- Adjust accordingly
+     name_prefix: master
+     root_volume_size: 40
+     docker_volume_size: 30
+   appnodes:
+     count: 2  <--- Adjust based on the size of the class
+     flavor: m4.xlarge   <---- Adjust based on the size of the class for higher/lower memory requirements
+     zones:
+     - us-east-1a   <---- Adjust accordingly
+     name_prefix: app-node
+     root_volume_size: 40
+     docker_volume_size: 30
+   infranodes:
+     count: 1    <----- usually 1
+     flavor: m4.xlarge  <---- this should be sufficient
+     zones:
+     - us-east-1a   <----- Adjust accordingly
+     name_prefix: infra-node
+     root_volume_size: 40
+     docker_volume_size: 30
+...
+dns_domain: "nextcle.com"   <---- Adjust if domain registered is different for your environment
+```
 +
-4. Using the AWS console, provision a t2.medium server with a DNS name of idm.<env_id>.nextcle.com.
-Use the Gold Red Hat 7.5 AMI. Adjust the inventory files to match the host name.
-Add Route53 records as follows:
-* public zone: associate idm.labs.nextcle.com with its public DNS name
-* private zone: associate idm.labs.nextcle.com with its private IP address (not name)
-* Add a reverse DNS private zone, e.g. 1.20.10.in-addr.arpa for the VPC subnet. Add an entry for xxx.1.20.10.in-addr.arpa PTR pointing to idm.labs.nextcle.com.
-5. Run the IDm provisioning playbook:
+. Edit *inventory_ocp/group_vars/all.yaml*:
 +
-  ansible-playbook -i inventory_idm/ galaxy/casl-ansible/galaxy/infra-ansible/playbooks/provision-idm/idm.yml
+```
+env_id: "labs" <-- change to a unique name. will be used in hostnames for each AWS instance
+```
 +
-Note: I had to comment out the import_playbook: dns.yml in idm.yml playbook so that it
-does not try to create DNS records.
-6. Add stanza to /etc/origin/master/master-config.yaml for identityProvider - see master-config.yaml.ldap for specific settings.
-7. Add user accounts via https://idm.labs.nextcle.com. Reset passwords on each account.
-8. Restart the master api and controllers. On master, /usr/local/bin/master-restart api and /usr/local/bin/master-restart controllers. You should now be able to login with LDAP credentials from IdM. 
+. Edit the *provision.sh* file:
++
+```
+  -e OPTS="-e aws_key_name=glsdemo2" -t \   <--- make sure this matches the AWS key name you uploaded
+```
++
+. Execute ./provision.sh.
++
+This script:
+
+- Sources the environment variables needed for various secrets.
+- Creates an inventory in the galaxy/casl-ansible folder based on the entries in *inventory_ocp* using
+the sample AWS inventory provided in github.
+- Starts the `redhatcop/casl-ansible` container to provision, install, and configure the OpenShift cluster
+using the Ansible playbooks and roles provided by `casl-ansible` and its related modules.
++
+
+
+=== Identity Manager (LDAP)
+. Edit the *inventory_idm/hosts* file and change the name of the server to match the
+subdomain and domain used by the OpenShift cluster.
+. Edit the *inventory_idm/group_vars/all.yml* file:
++
+```
+...
+vpc_name: labs   <---- make sure this matches the env_id for the cluster
+aws_region: us-east-1   <---- make sure this matches the cluster region
+# This should be a Gold AMI for Red Hat Linux
+ami_id: ami-0d70a070   <---- make sure this matches the cluster AMI
+dns_domain: nextcle.com  <---- verify the domain name
+
+instance:
+  flavor: t2.medium
+  zone: us-east-1a    <----- use the same availability zone as cluster
+  public_ip: yes
+  reverse_lookup: yes
+  reverse_zone: 1.20.10.in-addr.arpa. <----- change based on the subnet for cluster
+  hostname_prefix: idm
+  root_volume_size: 25
+...
+```
++
+. Edit the *inventory_idm/group_vars/idm-server.yml* file:
++
+```
+ansible_ssh_private_key_file: ~/.ssh/glsdemo2.pem   <---- use correct key file
+
+idm_master_hostname: idm.labs.nextcle.com  <---- adjust subdomain / domain
+idm_domain: labs.nextcle.com  <---- adjust subdomain / domain
+idm_realm: labs.nextcle.com  <---- adjust subdomain / domain
+```
++
+. Execute ./provision-idm.sh
+. On master, add stanza to */etc/origin/master/master-config.yaml* for identityProvider.
+See *master-config.yaml.ldap* for specific settings.
+. Add user accounts via https://idm.<env_id>.nextcle.com. Reset passwords on each account.
++
+NOTE: There is a playbook to do this but I could not get it to work.
++
+. Restart the master api and controllers. On master.<env_id>.nextcle.com:
++
+```
+  /usr/local/bin/master-restart api
+  /usr/local/bin/master-restart controllers
+```
++
+. You should now be able to login with LDAP credentials from IdM:
++
+```
+oc login -u username -p password https://idm.<env_id>.nextcle.com
+```
++
+
 
 === TO DO List
-2. Install Gitlab on cluster and tie to IDm
-3. Provision user accounts on IDm
-4. Reconcile this approach to building classroom with GPTE agnostic_deployer
+. Install Gitlab on cluster and tie to IdM.
+. Provision user accounts on IdM.
+. Reconcile this approach to building classroom with GPTE agnostic deployer.
++
+NOTE: We have been given permission to use this one-off method for DO500.
++

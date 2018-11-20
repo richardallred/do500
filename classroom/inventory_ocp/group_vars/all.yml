@@ -9,7 +9,7 @@
 hosting_infrastructure: aws
 
 # Cluster Environment ID to uniquely identify the environment
-env_id: "labs"
+env_id: "labs311"
 
 # Define custom Master(s) API and Console Port
 # Comment out these entries to use a different port for both the Web Console and OpenShift API - Default port is 8443
@@ -24,32 +24,33 @@ openshift_master_cluster_public_hostname: "console.{{ env_id }}.{{ dns_domain }}
 
 # Define infrastructure skeleton
 cloud_infrastructure:
-   region: us-east-1
-   image_name: ami-0d70a070 
+   region: us-east-2
+#   image_name: ami-0d70a070 # us-east-1
+   image_name: ami-8f2617ea
    masters:
-     count: 1 
+     count: 1
      flavor: m4.large
      zones:
-     - us-east-1a 
-     name_prefix: master 
-     root_volume_size: 40 
-     docker_volume_size: 30 
+     - us-east-2a
+     name_prefix: master
+     root_volume_size: 40
+     docker_volume_size: 30
    appnodes:
-     count: 2 
-     flavor: m4.xlarge 
+     count: 1
+     flavor: m4.large
      zones:
-     - us-east-1a 
-     name_prefix: app-node 
-     root_volume_size: 40 
-     docker_volume_size: 30 
+     - us-east-2a
+     name_prefix: app-node
+     root_volume_size: 40
+     docker_volume_size: 30
    infranodes:
-     count: 1 
-     flavor: m4.xlarge 
+     count: 1
+     flavor: m4.large
      zones:
-     - us-east-1a 
-     name_prefix: infra-node 
-     root_volume_size: 40 
-     docker_volume_size: 30 
+     - us-east-2a
+     name_prefix: infra-node
+     root_volume_size: 40
+     docker_volume_size: 30
 
 ## Temporary set for Docker and Gluster Storage block device names
 ## NOTE: do not modify this info. Will be handle on a handle on a different way in the future
@@ -97,7 +98,7 @@ aws_app_node_sgroups: ['ocp-ssh', 'ocp-app-node']
 aws_cns_node_sgroups: ['ocp-ssh', 'ocp-app-node', 'ocp-cns']
 
 ## These are the tag used to create different dynamic groups based on these names
-## NOTE: modifying these default values will affect on how the different type of nodes are discovered and configured on the required groups. You will need to update `hosts` inventory file accordingly if these values are modified 
+## NOTE: modifying these default values will affect on how the different type of nodes are discovered and configured on the required groups. You will need to update `hosts` inventory file accordingly if these values are modified
 group_masters_tag: masters_aws
 group_masters_etcd_tag: masters_etcd_aws
 group_etcd_nodes_tag: etcd_nodes_aws
@@ -117,9 +118,10 @@ labels_cns_nodes_tag: '{"region": "primary"}'
 rhsm_register: True
 rhsm_repos:
   - "rhel-7-server-rpms"
-  - "rhel-7-server-ose-3.10-rpms"
+  - "rhel-7-server-ose-3.11-rpms"
   - "rhel-7-server-extras-rpms"
-  - "rhel-7-server-ansible-2.4-rpms"
+  - "rhel-7-server-ansible-2.6-rpms"
+  - "rhel-7-server-optional-rpms"
 
 # Uncomment the following to use Red Hat Satellite:
 #rhsm_server_hostname: 'sat-6.example.com'
