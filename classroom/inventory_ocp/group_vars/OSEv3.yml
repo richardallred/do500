@@ -10,7 +10,7 @@ ansible_become: true
 # openshift_storage_glusterfs_namespace: glusterfs
 # openshift_storage_glusterfs_name: cns
 
-openshift_disable_check: 'disk_availability,docker_storage,memory_availability'
+openshift_disable_check: 'disk_availability,docker_storage,memory_availability,package_version'
 
 # Uncommented to automatically integrate OCP with AWS so EBS can be used as Dynamic Storage backend
 openshift_cloudprovider_kind: aws
@@ -39,8 +39,11 @@ openshift_deployment_type: openshift-enterprise
 containerized: false
 
 ### OCP version to install
-openshift_release: v3.11
+openshift_release: v3.11.16
 openshift_image_tag: v3.11.16
+openshift_pkg_version: -3.11.16
+enable_docker_excluder: True
+enable_openshift_excluder: True
 
 osm_default_node_selector: 'node-role.kubernetes.io/compute=true'
 osm_use_cockpit: true

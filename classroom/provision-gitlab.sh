@@ -8,7 +8,7 @@ cd temp
 #git clone https://github.com/rht-labs/enablement-ci-cd
 cp -a ../../labs/enablement-ci-cd .
 cd enablement-ci-cd
-./git-pull-all.sh
+#./git-pull-all.sh
 ansible-galaxy install -r requirements.yml --roles-path=roles
 oc login -u ${admin_user} -p ${admin_passwd} https://console.${env_id}.nextcle.com
 oc new-project common

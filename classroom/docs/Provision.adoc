@@ -165,7 +165,8 @@ idm_realm: labs.nextcle.com  <---- adjust subdomain / domain
 . Execute ./provision-idm.sh
 . On master, add stanza to */etc/origin/master/master-config.yaml* for identityProvider.
 See *master-config.yaml.ldap* for specific settings.
-. Add user accounts via https://idm.<env_id>.nextcle.com. Reset passwords on each account.
+. Add a group called "users" via the identity manager console.
+. Add user accounts via https://idm.<env_id>.nextcle.com. Assign users to "users" group. Reset passwords on each account.
 +
 NOTE: There is a playbook to do this but I could not get it to work.
 +
