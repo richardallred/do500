@@ -9,7 +9,7 @@
 hosting_infrastructure: aws
 
 # Cluster Environment ID to uniquely identify the environment
-env_id: "labs311"
+env_id: "labs"
 
 # Define custom Master(s) API and Console Port
 # Comment out these entries to use a different port for both the Web Console and OpenShift API - Default port is 8443
@@ -24,14 +24,14 @@ openshift_master_cluster_public_hostname: "console.{{ env_id }}.{{ dns_domain }}
 
 # Define infrastructure skeleton
 cloud_infrastructure:
-   region: us-east-2
-#   image_name: ami-0d70a070 # us-east-1
-   image_name: ami-8f2617ea
+   region: us-east-1
+   image_name: ami-0d70a070
+#   image_name: ami-8f2617ea #us-east-2
    masters:
      count: 1
      flavor: m4.large
      zones:
-     - us-east-2a
+     - us-east-1a
      name_prefix: master
      root_volume_size: 40
      docker_volume_size: 30
@@ -39,7 +39,7 @@ cloud_infrastructure:
      count: 1
      flavor: m4.large
      zones:
-     - us-east-2a
+     - us-east-1a
      name_prefix: app-node
      root_volume_size: 40
      docker_volume_size: 30
@@ -47,7 +47,7 @@ cloud_infrastructure:
      count: 1
      flavor: m4.large
      zones:
-     - us-east-2a
+     - us-east-1a
      name_prefix: infra-node
      root_volume_size: 40
      docker_volume_size: 30

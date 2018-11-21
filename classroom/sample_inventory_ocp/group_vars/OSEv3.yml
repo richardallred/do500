@@ -39,9 +39,9 @@ openshift_deployment_type: openshift-enterprise
 containerized: false
 
 ### OCP version to install
-openshift_release: v3.11.16
-openshift_image_tag: v3.11.16
-openshift_pkg_version: -3.11.16
+openshift_release: v3.11.43
+openshift_image_tag: v3.11.43
+openshift_pkg_version: -3.11.43
 enable_docker_excluder: True
 enable_openshift_excluder: True
 
