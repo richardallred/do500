@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 cp ansible.cfg galaxy/casl-ansible/
 rm -fr galaxy/casl-ansible/inventory/do500.aws.d
 mkdir -p galaxy/casl-ansible/inventory/do500.aws.d

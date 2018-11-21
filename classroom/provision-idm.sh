@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 source ./env.sh
 cp -a inventory_idm galaxy
 cp ansible.cfg galaxy/casl-ansible/

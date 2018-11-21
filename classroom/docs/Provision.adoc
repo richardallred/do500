@@ -44,7 +44,7 @@ in the AWS region you will target.
 
 == Provisioning Steps
 
-=== OpenShift Cluster
+=== Provisioning OpenShift Cluster
 . Copy *sample.env.sh* to *env.sh*.
 . Edit *env.sh*:
 +
@@ -63,10 +63,12 @@ IDM_ADMIN_PASSWORD=Adm1n123!
 +
 . Make sure your AWS credentials CSV file (downloaded from IAM account creation page)
 is located in $HOME as *aws-credentials.csv* The file contents look like this:
++
 ```
 User name,Password,Access key ID,Secret access key,Console login link
 bob,,AKIANNNNNNNNNNNNN,BBBBB/ccccc,https://933309984444.signin.aws.amazon.com/console
 ```
++
 . Pull in playbook dependencies using Ansible Galaxy:
 +
 ```
@@ -91,7 +93,7 @@ env_id: "labs" <-- change to a unique name. will be used in hostnames for each A
 ...
 cloud_infrastructure:
    region: us-east-1   <---- Adjust accordingly, make it match ec2.ini values
-   image_name: ami-0d70a070    <--- This is unique for your account, Red Hat Gold AMI for RHEL 7.5
+   image_name: ami-0d70a070    <--- This is unique for your account/region, Red Hat Gold AMI for RHEL 7.5
    masters:
      count: 1 <--- usually 1
      flavor: m4.large  <---- this should be sufficient
@@ -125,8 +127,9 @@ dns_domain: "nextcle.com"   <---- Adjust if domain registered is different for y
 ```
   -e OPTS="-e aws_key_name=glsdemo2" -t \   <--- make sure this matches the AWS key name you uploaded
 ```
+Make sure the paths for the private key and do500 sources are changed if needed in the script.
 +
-. Execute ./provision.sh.
+. Execute ./provision-ocp.sh.
 +
 This script:
 
@@ -138,7 +141,7 @@ using the Ansible playbooks and roles provided by `casl-ansible` and its related
 +
 
 
-=== Identity Manager (LDAP)
+=== Provisioning Identity Manager (LDAP)
 . Edit the *inventory_idm/hosts* file and change the name of the server to match the
 subdomain and domain used by the OpenShift cluster.
 . Edit the *inventory_idm/group_vars/all.yml* file:
@@ -182,9 +185,16 @@ NOTE: There is a playbook to do this but I could not get it to work.
 +
 . Restart the master api and controllers. On master.<env_id>.nextcle.com:
 +
+You can ssh into IdM instance, setup your ssh keys and config, and ssh from there to master.
 ```
   /usr/local/bin/master-restart api
   /usr/local/bin/master-restart controllers
+```
++
+. Assign cluster-admin privileges to at least one of the account you added in IdM. Run this on master as root.
++
+```
+oc adm policy add-cluster-role-to-user cluster-admin <username>
 ```
 +
 . You should now be able to login with LDAP credentials from IdM:
@@ -195,10 +205,27 @@ oc login -u username -p password https://idm.<env_id>.nextcle.com
 +
 
 
+=== Provisioning GitLab Instance in OpenShift Cluster
+. Double check your *env.sh* file to ensure that these variables are defined properly:
++
+```
+$ENV_ID   <---- env id for the openshift cluster
+$OCP_USERNAME   <---- the admin account you created in IdM
+$OCP_PASSWORD   <--- password for this admin account
+```
++
+. Execute *provision-gitlab.sh*
+. Verify via the CLI or OpenShift web console that GitLab deployed successfully.
+. Login with one of the IdM accounts on the GitLab LDAP login page.  You should login successfully.
+
+
+=== Provisioning the Jenkins NPM Slave
+. Execute *provision-jenkins-slave.sh*
+
+
+
 === TO DO List
-. Install Gitlab on cluster and tie to IdM.
-. Provision user accounts on IdM.
-. Reconcile this approach to building classroom with GPTE agnostic deployer.
-+
-NOTE: We have been given permission to use this one-off method for DO500.
-+
+. Provision user accounts on IdM via an automated means.
+. Gitlab fails to deploy on clusters that use cri-o instead of docker.  They are hard-coded to look for docker marker files in the image.
+. Automate de-provision the IdM infrastructure in AWS.
+. Find a way to delete the PVC/PV elastic storage in an automated fashion.  
