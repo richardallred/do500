@@ -42,3 +42,5 @@ EOF
 ansible-playbook apply.yml -e target=tools \
   -i inventory/ \
   -e "filter_tags=gitlab"
+cd ../../
+rm -fr temp
