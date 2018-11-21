@@ -79,6 +79,12 @@ ansible-galaxy install -r casl-requirements.yml -p galaxy
 ```
 +
 NOTE: We are using Jim Rigsbee's fork of infra-ansible at this time.
+. Copy sample OCP inventory to *inventory_ocp*:
++
+```
+cp -a sample_inventory_ocp inventory_ocp
+```
++
 . Edit *inventory_ocp/ec2.ini*:
 +
 ```
@@ -142,6 +148,12 @@ using the Ansible playbooks and roles provided by `casl-ansible` and its related
 
 
 === Provisioning Identity Manager (LDAP)
+. Copy sample IdM inventory to *inventory_idm*:
++
+```
+cp -a sample_inventory_idm inventory_idm
+```
++
 . Edit the *inventory_idm/hosts* file and change the name of the server to match the
 subdomain and domain used by the OpenShift cluster.
 . Edit the *inventory_idm/group_vars/all.yml* file:
@@ -185,7 +197,8 @@ NOTE: There is a playbook to do this but I could not get it to work.
 +
 . Restart the master api and controllers. On master.<env_id>.nextcle.com:
 +
-You can ssh into IdM instance, setup your ssh keys and config, and ssh from there to master.
+NOTE: You can ssh into IdM instance, setup your ssh keys and config, and ssh from there to master.
++
 ```
   /usr/local/bin/master-restart api
   /usr/local/bin/master-restart controllers
