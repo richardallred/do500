@@ -12,7 +12,7 @@ cd enablement-ci-cd
 ansible-galaxy install -r requirements.yml --roles-path=roles
 oc login -u ${admin_user} -p ${admin_passwd} https://console.${env_id}.nextcle.com
 oc new-project common
-git checkout exercise1/git-nexus templates/gitlab.yml params/gitlab
+#git checkout exercise1/git-nexus templates/gitlab.yml params/gitlab
 cat  <<EOF > params/gitlab
 LDAP_BIND_DN=uid=git,cn=users,cn=accounts,dc=${env_id},dc=nextcle,dc=com
 LDAP_USER_FILTER=(memberOf=cn=users,cn=groups,cn=accounts,dc=${env_id},dc=nextcle,dc=com)
