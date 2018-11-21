@@ -180,13 +180,12 @@ instance:
 . Edit the *inventory_idm/group_vars/idm-server.yml* file:
 +
 ```
-ansible_ssh_private_key_file: ~/.ssh/glsdemo2.pem   <---- use correct key file
-
 idm_master_hostname: idm.labs.nextcle.com  <---- adjust subdomain / domain
 idm_domain: labs.nextcle.com  <---- adjust subdomain / domain
 idm_realm: labs.nextcle.com  <---- adjust subdomain / domain
 ```
 +
+. Edit the *provision-idm.sh and make sure paths and keys are correct.
 . Execute ./provision-idm.sh
 . On master, add stanza to */etc/origin/master/master-config.yaml* for identityProvider.
 See *master-config.yaml.ldap* for specific settings.
