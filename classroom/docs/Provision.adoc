@@ -120,7 +120,7 @@ cloud_infrastructure:
 dns_domain: "nextcle.com"   <---- Adjust if domain registered is different for your environment
 ```
 +
-. Edit the *provision.sh* file:
+. Edit the *provision-ocp.sh* file:
 +
 ```
   -e OPTS="-e aws_key_name=glsdemo2" -t \   <--- make sure this matches the AWS key name you uploaded
