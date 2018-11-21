@@ -223,9 +223,8 @@ $OCP_PASSWORD   <--- password for this admin account
 . Execute *provision-jenkins-slave.sh*
 
 
-
 === TO DO List
 . Provision user accounts on IdM via an automated means.
 . Gitlab fails to deploy on clusters that use cri-o instead of docker.  They are hard-coded to look for docker marker files in the image.
 . Automate de-provision the IdM infrastructure in AWS.
-. Find a way to delete the PVC/PV elastic storage in an automated fashion.  
+. Find a way to delete the PVC/PV elastic storage in an automated fashion.
