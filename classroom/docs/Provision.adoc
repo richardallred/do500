@@ -33,6 +33,11 @@ for the account. Use the "Download CSV" button (available only during account cr
 . A hosted zone must be established in the AWS account. These instructions
 currently assume `nextcle.com`
 . The Red Hat "Gold Images" need to be added to the AWS account. see https://access.redhat.com/articles/2962171.
++
+Go to the EC2 console and select AMI.  Search for RHEL-7.5 and select RHEL-7.5_HVM_GA-20180322-x86_64-1-Access2-GP2.
+Record the AMI ID.  It should look like this: ami-c2603bad. It will be different for every AWS region!!!
+These also have to be added to each AWS base account, see URL above.
++
 . A private key file for access to the instances. You may create and upload one
 to your AWS account or use the glsdemo2.pem key. Contact Jim Rigsbee for the key file. Make sure a private key is defined
 in the AWS region you will target.
@@ -49,6 +54,11 @@ RHSM_PASSWD=<subscription-manager password>
 RHSM_POOL=<subscription pool for Employee SKU>
 REG_USERNAME=<registry.redhat.io service account username>
 REG_TOKEN=<registry.redhat.io service account token>
+ENV_ID=<subdomain for this cluster>
+OCP_USERNAME=<cluster admin account>
+OCP_PASSWORD=<cluster admin password>
+IDM_DM_PASSWORD=D0ma1n123!
+IDM_ADMIN_PASSWORD=Adm1n123!
 ```
 +
 . Make sure your AWS credentials CSV file (downloaded from IAM account creation page)
@@ -72,6 +82,12 @@ NOTE: We are using Jim Rigsbee's fork of infra-ansible at this time.
 ```
 regions = <region to place cloud formation in, e.g. us-east-1>
 instance_filters = tag:env_id=<env_id, e.g. labs>
+```
++
+. Edit *inventory_ocp/group_vars/all.yaml*:
++
+```
+env_id: "labs" <-- change to a unique name. will be used in hostnames for each AWS instance
 ...
 cloud_infrastructure:
    region: us-east-1   <---- Adjust accordingly, make it match ec2.ini values
@@ -102,12 +118,6 @@ cloud_infrastructure:
      docker_volume_size: 30
 ...
 dns_domain: "nextcle.com"   <---- Adjust if domain registered is different for your environment
-```
-+
-. Edit *inventory_ocp/group_vars/all.yaml*:
-+
-```
-env_id: "labs" <-- change to a unique name. will be used in hostnames for each AWS instance
 ```
 +
 . Edit the *provision.sh* file:
