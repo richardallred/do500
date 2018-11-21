@@ -200,7 +200,6 @@ NOTE: You can ssh into IdM instance, setup your ssh keys and config, and ssh fro
 +
 ```
   /usr/local/bin/master-restart api
-  /usr/local/bin/master-restart controllers
 ```
 +
 . Assign cluster-admin privileges to at least one of the account you added in IdM. Run this on master as root.
