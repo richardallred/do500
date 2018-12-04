@@ -1,4 +1,4 @@
-# The Manual Menace
+# The DevOps Dino
 > In this exercise learners will use Ansible to drive automated provisioning of Projects in OpenShift, Git, Jenkins and Nexus.
 
 ![automation-xkcd](https://imgs.xkcd.com/comics/automation.png)
